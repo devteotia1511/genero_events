@@ -46,6 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add active class to clicked link
             this.classList.add('active');
             
+            // Hide Free and Paid events by default
+            document.querySelector('[data-category="free"]').style.display = 'none';
+            document.querySelector('[data-category="paid"]').style.display = 'none';
+            
             if (linkText === 'Free Events') {
                 // Trigger Free Events category filter
                 setTimeout(() => {
@@ -54,6 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                         freeBtn.classList.add('active');
                         freeBtn.click();
+                        // Show Free Events section
+                        document.querySelector('[data-category="free"]').style.display = 'block';
                     }
                 }, 500);
             } else if (linkText === 'Paid Events') {
@@ -64,6 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                         paidBtn.classList.add('active');
                         paidBtn.click();
+                        // Show Paid Events section
+                        document.querySelector('[data-category="paid"]').style.display = 'block';
                     }
                 }, 500);
             }
@@ -85,15 +93,35 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Filter events based on selected category
             eventCategories.forEach(category => {
-                if (selectedCategory === 'all' || category.dataset.category === selectedCategory) {
-                    category.style.display = 'block';
-                    // Re-trigger animation
+                if (selectedCategory === 'all') {
+                    // Show all except Free and Paid
+                    if (category.dataset.category === 'free' || category.dataset.category === 'paid') {
+                        category.style.display = 'none';
+                    } else {
+                        category.style.display = 'block';
+                    }
+                } else if (selectedCategory === 'free' || selectedCategory === 'paid') {
+                    // Show only Free or Paid, hide others
+                    if (category.dataset.category === selectedCategory) {
+                        category.style.display = 'block';
+                    } else {
+                        category.style.display = 'none';
+                    }
+                } else {
+                    // Show specific department category
+                    if (category.dataset.category === selectedCategory) {
+                        category.style.display = 'block';
+                    } else {
+                        category.style.display = 'none';
+                    }
+                }
+                
+                // Re-trigger animation
+                if (category.style.display === 'block') {
                     category.style.animation = 'none';
                     setTimeout(() => {
                         category.style.animation = '';
                     }, 10);
-                } else {
-                    category.style.display = 'none';
                 }
             });
         });
