@@ -4,9 +4,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     
-    hamburger.addEventListener('click', function() {
+    hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
         navLinks.classList.toggle('active');
         hamburger.classList.toggle('active');
+    });
+    
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
+    });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
     });
 
     // Smooth Scrolling for Navigation Links
