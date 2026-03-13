@@ -20,6 +20,36 @@ document.addEventListener('DOMContentLoaded', function() {
                     block: 'start'
                 });
             }
+            
+            // Handle Free Events and Paid Events navigation
+            const linkText = this.textContent.trim();
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            if (linkText === 'Free Events') {
+                // Trigger Free Events category filter
+                setTimeout(() => {
+                    const freeBtn = document.querySelector('[data-category="free"]');
+                    if (freeBtn) {
+                        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                        freeBtn.classList.add('active');
+                        freeBtn.click();
+                    }
+                }, 500);
+            } else if (linkText === 'Paid Events') {
+                // Trigger Paid Events category filter
+                setTimeout(() => {
+                    const paidBtn = document.querySelector('[data-category="paid"]');
+                    if (paidBtn) {
+                        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                        paidBtn.classList.add('active');
+                        paidBtn.click();
+                    }
+                }, 500);
+            }
         });
     });
 
